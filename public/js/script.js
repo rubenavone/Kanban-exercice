@@ -134,8 +134,6 @@ function appendNotes(noteSectionSelector) {
 /********************************/
 /**********ADD ONE NOTE**********/
 /********************************/
-
-
 /**
  * évènement lié au bouton envoyer
  * récupère les info dans les champ et instancie une nouvelle Note
