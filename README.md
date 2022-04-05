@@ -28,3 +28,4 @@ Toutes les cases non cocher dans la todo list sont des fonctionalité à ajouté
 
 - [x] Ajouter la suppression de note  
 - [ ] Ajouter la suppresion des input lors de la validation  
+
