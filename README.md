@@ -9,8 +9,11 @@ La v2 est en cours de préparation et fonctionnera avec une bases de données
 
 Toutes les cases non cocher dans la todo list sont des fonctionalité à ajouté au programme.
 
-## TODO LIST
+## Diagramme
 
+
+
+## TODO LIST (elle permet de voir les amélioration possible)
 - [ ] Exercice kanban qui regroupe plusieur technologie  
     - [x] Ajout de note avec un form
         - [ ] Design potable du formulaire  
@@ -29,3 +32,4 @@ Toutes les cases non cocher dans la todo list sont des fonctionalité à ajouté
 - [x] Ajouter la suppression de note  
 - [ ] Ajouter la suppresion des input lors de la validation  
 
+![example](kanban.PNG)
