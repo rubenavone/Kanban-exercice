@@ -1,14 +1,12 @@
 # [PocNote](https://rubenavone.github.io/Kanban-exercice/public/)
 
-Projet de kanban simple a multiple, colonne.
-
-Vous allez réaliser un kanban, pour ce faire vous allez utilisés diverses technologie.  
-Ce projet nécéssite LocalStorage, HTML drag and drop, les évènements (addEventListener), la création d'éléments remplissage et affichage d'éléments.  
-Ce projets n'est pas un CRUD complet il manque la fonctionalité UPDATE.
+Vous allez réaliser un kanban, pour ce faire vous allez utiliser diverses technologie.  
+Ce projet nécessite LocalStorage, HTML drag and drop, les événements (addEventListener), la création d'éléments remplissage et affichage d'éléments.  
+Ce projet n'est pas un CRUD complet, il manque la fonctionnalité UPDATE.
 Les éléments ne seront pas stocker en bases de données.  
 Observez et tester le programme pour le comprendre et savoir quoi faire.  
 Faite une todo list comme l'exemple pour vous aidez dans votre organisation de tâches.
-Faite le avec le en fonctionnel ou objet.
+Faites le en fonctionnel ou objet.
 
 Have fun
 
