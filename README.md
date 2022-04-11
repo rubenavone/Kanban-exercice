@@ -1,19 +1,19 @@
-# PocNote
+# [PocNote](https://rubenavone.github.io/Kanban-exercice/public/)
+
 Projet de kanban simple a multiple, colonne.
-Le projet est non finis, il manque des fonctionalité.
-Vous allez forker le projet et ajouter une fonctionalité au choix.
-Certaine son simple d'autre complexe, faite en sorte d'être cohérent avec le projet.
 
-Pour le moment le projet fonctionne avec localStorage.
-La v2 est en cours de préparation et fonctionnera avec une bases de données  
+Vous allez réaliser un kanban, pour ce faire vous allez utilisés diverses technologie.  
+Ce projet nécéssite LocalStorage, HTML drag and drop, les évènements (addEventListener), la création d'éléments remplissage et affichage d'éléments.  
+Ce projets n'est pas un CRUD complet il manque la fonctionalité UPDATE.
+Les éléments ne seront pas stocker en bases de données.  
+Observez et tester le programme pour le comprendre et savoir quoi faire.  
+Faite une todo list comme l'exemple pour vous aidez dans votre organisation de tâches.
+Faite le avec le en fonctionnel ou objet.
 
-Toutes les cases non cocher dans la todo list sont des fonctionalité à ajouté au programme.
-
-## Diagramme
+Have fun
 
 
-
-## TODO LIST (elle permet de voir les amélioration possible)
+## Exemple de TODO LIST
 - [ ] Exercice kanban qui regroupe plusieur technologie  
     - [x] Ajout de note avec un form
         - [ ] Design potable du formulaire  
