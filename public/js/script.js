@@ -19,8 +19,10 @@ let inputNoteContentSelector = document.querySelector("#note-content");
     date = génére une date à la création de la note
     */
 class Notes {
-    constructor(title, content, status = "todo") {
-        this.title = title,
+    constructor(title, content, status = "todo", date=null) {
+        this.title = title
+        if(date) this.date = date
+        else{
             this.date = new Date().toLocaleDateString(navigator.language, {
                 day: "numeric",
                 year: "numeric",
@@ -29,7 +31,8 @@ class Notes {
                 hour: "numeric",
                 minute: "numeric"
             });
-        this.note = content,
+        }
+        this.note = content
         this.status = status
     }
 };
@@ -42,7 +45,7 @@ function initialiseApp(noteArray) {
         //       
         if(yourNotes.length !== 0){
             noteArray.forEach(note => {
-                let singleNote = new Notes(note.title, note.note, note.status);
+                let singleNote = new Notes(note.title, note.note, note.status, note.date);
                 if(singleNote.status === "todo" || singleNote.status === "verified" || singleNote.status === "verified") {
                 initOneNote(singleNote);
                 }else{
