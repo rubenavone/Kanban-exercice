@@ -1,4 +1,6 @@
-# [PocNote](https://rubenavone.github.io/Kanban-exercice/public/)
+# [PocNote 0.1](https://rubenavone.github.io/Kanban-exercice/v0.1/)
+# [PocNote 0.2](https://rubenavone.github.io/Kanban-exercice/v0.2/)
+
 
 Vous allez réaliser un kanban, pour ce faire vous allez utiliser diverses technologie.  
 Ce projet nécessite LocalStorage, HTML drag and drop, les événements (addEventListener), la création d'éléments remplissage et affichage d'éléments.  
