@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>my notes</title>
+  <title>POC NOTES</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -16,21 +16,18 @@
       <div>
         <h2>Add notes </h2>
         <form action="POST">
-
           <label for="title-note"> Title of note
             <input type="text" name="title-note" id="title-note" placeholder="enter a title">
           </label>
           <label for="note-content">content of note
             <input type="text" name="note-content" id="note-content" placeholder="enter a note description">
           </label>
-
         </form><input id="add-note-button" type="button" value="Validation">
       </div>
 
       <div>
         <h2>Delete notes </h2>
-        <img src="./img/dustbin_120823.png" alt="" class="trash" ondragover="onDragOver(event);"
-          ondrop="trashDrop(event);">
+        <img src="./img/dustbin_120823.png" alt="" class="trash drag-event-js" >
       </div>
 
     </section>
@@ -39,14 +36,14 @@
   <main class="all-notes">
     <div>
       <h3>TO DO</h3>
-      <section class="todo array" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+      <section class="todo array drag-event-js" column="todo" >
 
       </section>
     </div>
 
     <div>
       <h3>DONE</h3>
-      <section class="done array" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+      <section class="done array drag-event-js" column="done"  >
 
 
       </section>
@@ -54,15 +51,17 @@
 
     <div>
       <h3>VERIFIED</h3>
-      <section class="verified array" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+      <section class="verified array drag-event-js" column="verified"  >
 
 
       </section>
     </div>
 
   </main>
+  <button class="log"> display Log</button>
+  <button class="clear-storage"> clear local storage</button>
 
-  <script src="js/script.js"></script>
+  <script src="js/script.js" type="module"></script>
 </body>
 
 </html>

@@ -1,16 +1,20 @@
-//Modele de note pour le todo
-let noteContainer, noteTitle, noteDate, noteDescription;
-let init = true
+import { Logger } from "./logger.js";
 
+//Modele de note pour le todo
+let noteContainer, noteTitle, noteDate, noteDescription, actualSavedNote, lastNote;
+//permet de savoir si le programme 
+let init = true
 //id incrementation
 let idIncrement = 0;
 
 //Selecteur du formulaire pour gerer l'ajout dans le tableau
-//Selection de toutes les notes
-let buttonSelector = document.querySelector("#add-note-button");
 let inputTitleSelector = document.querySelector("#title-note");
 let inputNoteContentSelector = document.querySelector("#note-content");
+//Selection de toutes les notes
+let buttonSelector = document.querySelector("#add-note-button");
 
+let trashSelector = document.querySelector(".trash");
+let draggablesElementSelector = document.querySelectorAll(".drag-event-js");
 /*
     Class Pour les note
     title = titre de la note
@@ -19,17 +23,18 @@ let inputNoteContentSelector = document.querySelector("#note-content");
     date = génére une date à la création de la note
     */
 class Notes {
-    constructor(title, content, status = "todo", date=null) {
+    constructor(title, content, status = "todo", date = null) {
         this.title = title
-        if(date) this.date = date
-        else{
+        if (date) this.date = date
+        else {
             this.date = new Date().toLocaleDateString(navigator.language, {
                 day: "numeric",
                 year: "numeric",
                 month: "long",
                 weekday: "long",
                 hour: "numeric",
-                minute: "numeric"
+                minute: "numeric",
+                second: "numeric"
             });
         }
         this.note = content
@@ -42,19 +47,27 @@ class Notes {
  * @param {Array} noteArray 
  */
 function initialiseApp(noteArray) {
-        //       
-        if(yourNotes.length !== 0){
-            noteArray.forEach(note => {
-                let singleNote = new Notes(note.title, note.note, note.status, note.date);
-                if(singleNote.status === "todo" || singleNote.status === "verified" || singleNote.status === "verified") {
+    //       
+    if (yourNotes.length !== 0) {
+        noteArray.forEach(note => {
+            let singleNote = new Notes(note.title, note.note, note.status, note.date);
+
+            console.log(singleNote)
+            console.log("le status de la note est t'il 'trash' ?")
+           
+            if (singleNote.status === "trash") {
+                console.log("oui on instancie pas la note");
+                idIncrement++;
+            } else {
+                console.log("non on instancie la note");
                 initOneNote(singleNote);
-                }else{
-                    idIncrement++;
-                }
-            });
-        }
+
+            }
+        });
+    }
     init = false;
 };
+
 /*
  * Permet d'ajouter une note sur le tableau
  * Prend un obj en parametre
@@ -65,18 +78,18 @@ function initOneNote(note) {
     createNotes();
     //Insere les information de la note
     fillsNotes(note.title, note.date, note.note);
+    Logger.newEntry({
+        group: "information",
+        message: "Dans initOneNote le status de la note est " + note.status
+    })
+    //Accroche la note sur la pages
     appendNotes(note.status)
-
     if (init === false) {
         yourNotes.push(note);
     }
 
-    if (init === true) {
-        lastNote = document.querySelectorAll("article");
-    } else {
-        lastNote = document.querySelectorAll(".todo article");
-    }
-    addAttrAndId(lastNote[lastNote.length - 1]);
+    addAttrAndId(noteContainer);
+    
 }
 /********************************/
 /*************ADD ATTR***********/
@@ -87,12 +100,37 @@ function initOneNote(note) {
  * @param {querySelector or querySelectorAll} note 
  */
 function addAttrAndId(note) {
+    Logger.newEntry({
+        group: "information",
+        message: "Dans la fonction addAttrAndId"
+    })
     //Ajoute l'atrr dragable pour pouvoir attraper nos éléments
     note.setAttribute("draggable", "true");
     //Ajoute l'évènement ondragstart qui lance la fonction onDragStart(event)
-    note.setAttribute("ondragstart", "onDragStart(event)");
+    note.addEventListener("dragstart", function (event) {
+        //Permet lorsque l'on attrape un élément de récuperer toute les information
+        //nécéssaire à son transfert
+        event.dataTransfer.setData('text/plain', event.target.id);
+        
+
+        //Le code ci dessou permet de changer la couleur des élément
+        // let currentTargetStyle =  event.currentTarget.style.backgroundColor;
+        // if(currentTargetStyle == "green"){
+        //     event.currentTarget.style.backgroundColor = "yellow";
+        //     event.currentTarget.style.color = "black";
+        // }else{
+        //     event.currentTarget.style.backgroundColor = "green";
+        //     event.currentTarget.style.color = "white";
+        // }
+    })
+
     //Change la valeur de notre id de note
     note.id = `${idIncrement}`;
+    Logger.newEntry({
+        group: "information",
+        message: `id de la note créée : ${note.id} valeur de idIncrement : ${idIncrement}`
+    })
+    console.log(note)
     //Incremente l'id de notre note
     idIncrement++;
 }
@@ -132,6 +170,8 @@ function appendNotes(noteSectionSelector) {
         console.log("add it to historic");
         //sinon on affiche la note
     } else {
+        console.log(noteSectionSelector, noteContainer);
+        console.log(document.querySelector(`.${noteSectionSelector}`))
         document.querySelector(`.${noteSectionSelector}`).append(noteContainer);
         noteContainer.append(noteTitle);
         noteContainer.append(noteDescription);
@@ -168,75 +208,93 @@ buttonSelector.addEventListener("click", function (e) {
  * @param {*} index 
  */
 
-function changeStatus(array, index) {  
-    array[index].status = "trash";
+function changeStatus(array, index, column) {
+    console.log(column)
+    array[index].status = column;
+
 }
 /********************************/
 /********DRAG & DROP*************/
 /********************************/
+draggablesElementSelector.forEach(function (oneElement) {
+    //Si l'element contient la class trash alors on lui met un évènement spécifique
+    if (oneElement.classList.contains("trash")) {
+        /********************************/
+        /**********REMOVE NOTE***********/
+        /********************************/
+        trashSelector.addEventListener("drop", function (event) {
+            //on previent le comportement par default de l'évènement.
+            event.preventDefault();
 
-function onDragStart(event) {
-    //Permet lorsque l'on attrape un élément de récuperer toute les information
-    //nécéssaire à son transfert
-    let data = event.dataTransfer.setData('text/plain', event.target.id);
-    console.log(typeof data);
+            //Affichage qui permet de voir l'élément que l'on va supprimer
+            console.log(`you drop an element is id is ${event.dataTransfer.getData('text')}`)
 
-    //Le code ci dessou permet de changer la couleur des élément
-    // let currentTargetStyle =  event.currentTarget.style.backgroundColor;
-    // if(currentTargetStyle == "green"){
-    //     event.currentTarget.style.backgroundColor = "yellow";
-    //     event.currentTarget.style.color = "black";
-    // }else{
-    //     event.currentTarget.style.backgroundColor = "green";
-    //     event.currentTarget.style.color = "white";
-    // }
-}
+            //on stocke la donnée que l'on transfere
+            const id = event.dataTransfer.getData('text/plain');
 
-function onDragOver(event) {
-    event.preventDefault();
-}
+            //On verifie l'id actuel de la note que l'on a mit à la poubelle
+            console.log(`is id is actually ${id}`)
 
-function onDrop(event) {
-    //On lance la fonction de sauvegarde au dépot de la note 
-    saveNotes();
-    //On prévient le comportement par défaut de l'évènement
-    event.preventDefault();
-    //On récupère l'id de la note bouger
-    const id = event.dataTransfer.getData('text');
-    //On récupère l'élément du DOM
-    const draggableElement = document.getElementById(`${id}`);
-    //On cible la zone de notre élément 
-    const dropzone = event.target;
-    //permet de récuperer la classe dans lequelle l'élément est déposé
-    console.log(event.target.className)
-    //On refait apparaitre l'élément dans la nouvelle zone
-    dropzone.append(draggableElement);
-}
-/********************************/
-/**********REMOVE NOTE***********/
-/********************************/
+            //Appel de la fonction qui gère le changement de status d'une note
+            changeStatus(yourNotes, id, "trash");
 
-function trashDrop(event) {
-    //on previent le comportement par default de l'évènement.
-    event.preventDefault();
-    //Affichage qui permet de voir l'élément que l'on va supprimer
-    console.log(`you drop an element is id is ${event.dataTransfer.getData('text')}`)
-    //on stocke la donnée que l'on transfere
-    const id = event.dataTransfer.getData('text');
-    //On verifie l'id actuel de la note que l'on a mit à la poubelle
-    console.log(`is id is actually ${id}`) 
-    //Appel de la fonction qui gère le changement de status d'une note
-    changeStatus(yourNotes, id);
-    //on retire notre élément du DOM
-    document.getElementById(`${id}`).remove();
-    //On lance une sauvegarde
-    saveNotes();
-    //On verifie le status de la note 
-    console.table(yourNotes[id].status);  
-};
+            //on retire notre élément du DOM
+            document.getElementById(`${id}`).remove();
+
+            //On lance une sauvegarde
+            saveNotes();
+
+            //On verifie le status de la note 
+            console.table(yourNotes[id].status);
+        })
+    } else {
+        oneElement.addEventListener("drop", function (event) {
+            //On lance la fonction de sauvegarde au dépot de la note 
+            saveNotes();
+
+            //On prévient le comportement par défaut de l'évènement
+            event.preventDefault();
+
+            //On récupère l'id de la note bouger
+            const id = event.dataTransfer.getData('text/plain');
+
+            Logger.newEntry({
+                group: "information",
+                message: "Actual Id : " + id
+            })
+            //On récupère l'élément du DOM
+            const draggableElement = document.getElementById(`${id}`);
+
+            //On cible la zone de notre élément 
+            const dropzone = event.target;
+
+            //permet de récuperer la valeur de l'attribut custome column
+            const actualColumn = event.target.getAttribute("column");
+
+            console.log(actualColumn + " actual column " + (actualColumn !== null))
+            if (actualColumn !== null) {
+                //Appel de la fonction qui gère le changement de status d'une note
+                changeStatus(yourNotes, id, actualColumn);
+                //On refait apparaitre l'élément dans la nouvelle zone
+                dropzone.append(draggableElement);
+            }
+            Logger.newEntry({
+                group: "information",
+                message: `Affichage des notes` + localStorage.getItem("savedNotes")
+            })
+            //On lance une sauvegarde
+            saveNotes();
+        })
+    }
+    oneElement.addEventListener("dragover", function (event) {
+        event.preventDefault();
+    })
+});
+
+
 /**************************/
 /******Sauvegarde**********/
-/**************************/
+/**************************/""
 function saveNotes() {
     //Message pour annoncé la sauvegarde
     console.log("sauvegarde lancé");
@@ -246,27 +304,47 @@ function saveNotes() {
     let stringifiedNotes = JSON.stringify(yourNotes);
     //On enregistre la note dans le localStorage
     localStorage.setItem("savedNotes", stringifiedNotes);
-    console.log("sauvegarde Terminé");
+    console.log("sauvegarde en cours");
 }
 
 /***************************/
 /******Chargement**********/
 /**************************/
 function loadNotes() {
-    console.log("Chargement des données")
     if (localStorage.length !== 0) {
+        console.log("Chargement des données existante");
         actualSavedNote = JSON.parse(localStorage.getItem("savedNotes"));
+        Logger.newEntry({
+            group: "Information",
+            message: " Affichage des note sauvegarder dans le local storage " + actualSavedNote
+        });
         return actualSavedNote;
     } else {
-        // Données personnelle qui sera rangé dans le local storage
-        actualSavedNote = [
 
-        ];
+        // Données personnelle qui sera rangé dans le local storage
+        actualSavedNote = [];
         return actualSavedNote;
     }
-
 }
-
 //Init of the app 
 let yourNotes = loadNotes();
 initialiseApp(yourNotes);
+
+
+
+/***
+ * Utility
+ */
+
+let logDisplayerBtn = document.querySelector(".log");
+
+logDisplayerBtn.addEventListener("click", function () {
+    Logger.displayer();
+
+})
+
+let clearLocalStorage = document.querySelector(".clear-storage");
+
+clearLocalStorage.addEventListener("click", function () {
+    localStorage.clear();
+})
