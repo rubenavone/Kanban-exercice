@@ -1,6 +1,6 @@
 /**
  * Logger is a component, he display all logs when you click on displayLog button
- * These logs are push in logsContainer
+ * These logs are push in logsContainer g
  */
 class Logger {
 
