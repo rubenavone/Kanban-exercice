@@ -6,10 +6,10 @@ Vous allez réaliser un kanban, pour ce faire vous allez utiliser diverses techn
 Ce projet nécessite LocalStorage, HTML drag and drop, les événements (addEventListener), la création d'éléments remplissage et affichage d'éléments.  
 Ce projet n'est pas un CRUD complet, il manque la fonctionnalité UPDATE.
 Les éléments ne seront pas stocker en bases de données.  
-Observez et tester le programme pour le comprendre et savoir quoi faire.  
+Observez et tester PocNote 0.1 pour le comprendre et savoir quoi faire.  
 Faite une todo list comme l'exemple pour vous aidez dans votre organisation de tâches.
 Faites le en fonctionnel ou objet.
-
+Les Bonus sont en issue sur Github.
 Have fun
 
 

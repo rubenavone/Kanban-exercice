@@ -1,4 +1,6 @@
-import { Logger } from "./logger.js";
+import { Logger } from "./Logger.js";
+import { Note } from "./Note.js"
+
 
 //Modele de note pour le todo
 let noteContainer, noteTitle, noteDate, noteDescription, actualSavedNote, lastNote;
@@ -15,32 +17,7 @@ let buttonSelector = document.querySelector("#add-note-button");
 
 let trashSelector = document.querySelector(".trash");
 let draggablesElementSelector = document.querySelectorAll(".drag-event-js");
-/*
-    Class Pour les note
-    title = titre de la note
-    note = contenus de votre note
-    status = colonne dans laquelles sera la note
-    date = génére une date à la création de la note
-    */
-class Notes {
-    constructor(title, content, status = "todo", date = null) {
-        this.title = title
-        if (date) this.date = date
-        else {
-            this.date = new Date().toLocaleDateString(navigator.language, {
-                day: "numeric",
-                year: "numeric",
-                month: "long",
-                weekday: "long",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric"
-            });
-        }
-        this.note = content
-        this.status = status
-    }
-};
+
 
 /**
  * Permet d'instancier à l'aide de la classe note toutes les notes contenus dans un tableau
@@ -50,7 +27,7 @@ function initialiseApp(noteArray) {
     //       
     if (yourNotes.length !== 0) {
         noteArray.forEach(note => {
-            let singleNote = new Notes(note.title, note.note, note.status, note.date);
+            let singleNote = new Note(note.title, note.note, note.status, note.date);
 
             console.log(singleNote)
             console.log("le status de la note est t'il 'trash' ?")
@@ -192,7 +169,7 @@ buttonSelector.addEventListener("click", function (e) {
     //Mise en place d'une verification des données entrée ?
 
     //Instanciation d'une nouvel note
-    let newUserNote = new Notes(inputTitleSelector.value, inputNoteContentSelector.value);
+    let newUserNote = new Note(inputTitleSelector.value, inputNoteContentSelector.value);
     //Lancement de la fonction initOneNote(noteInstancié)
     initOneNote(newUserNote);
     //Sauvegarde des notes de la session en cours
@@ -227,13 +204,13 @@ draggablesElementSelector.forEach(function (oneElement) {
             event.preventDefault();
 
             //Affichage qui permet de voir l'élément que l'on va supprimer
-            console.log(`you drop an element is id is ${event.dataTransfer.getData('text')}`)
+            console.log(`you drop an element is id is ${event.dataTransfer.getData('text')}`);
 
             //on stocke la donnée que l'on transfere
             const id = event.dataTransfer.getData('text/plain');
 
             //On verifie l'id actuel de la note que l'on a mit à la poubelle
-            console.log(`is id is actually ${id}`)
+            console.log(`is id is actually ${id}`);
 
             //Appel de la fonction qui gère le changement de status d'une note
             changeStatus(yourNotes, id, "trash");
@@ -267,7 +244,7 @@ draggablesElementSelector.forEach(function (oneElement) {
 
             //On cible la zone de notre élément 
             const dropzone = event.target;
-
+            console.log(event.target);
             //permet de récuperer la valeur de l'attribut custome column
             const actualColumn = event.target.getAttribute("column");
 
@@ -294,7 +271,8 @@ draggablesElementSelector.forEach(function (oneElement) {
 
 /**************************/
 /******Sauvegarde**********/
-/**************************/""
+/**************************/
+
 function saveNotes() {
     //Message pour annoncé la sauvegarde
     console.log("sauvegarde lancé");
@@ -320,7 +298,6 @@ function loadNotes() {
         });
         return actualSavedNote;
     } else {
-
         // Données personnelle qui sera rangé dans le local storage
         actualSavedNote = [];
         return actualSavedNote;
@@ -329,7 +306,6 @@ function loadNotes() {
 //Init of the app 
 let yourNotes = loadNotes();
 initialiseApp(yourNotes);
-
 
 
 /***

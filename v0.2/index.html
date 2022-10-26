@@ -11,7 +11,7 @@
 
 <body>
   <div>
-    <h1>Kanban v.O.2</h1>
+    <h1>Ma version du kanban </h1>
     <section class="parameter">
       <div>
         <h2>Add notes </h2>
@@ -19,6 +19,7 @@
           <label for="title-note"> Title of note
             <input type="text" name="title-note" id="title-note" placeholder="enter a title">
           </label>
+          
           <label for="note-content">content of note
             <input type="text" name="note-content" id="note-content" placeholder="enter a note description">
           </label>
@@ -26,6 +27,8 @@
       </div>
 
       <div>
+        <input type="button" class="log" value="display Log"> 
+        <input type="button" class="clear-storage" value="clear local storage"> 
         <h2>Delete notes </h2>
         <img src="./img/dustbin_120823.png" alt="" class="trash drag-event-js" >
       </div>
@@ -58,8 +61,7 @@
     </div>
 
   </main>
-  <button class="log"> display Log</button>
-  <button class="clear-storage"> clear local storage</button>
+
 
   <script src="js/script.js" type="module"></script>
 </body>
