@@ -259,9 +259,7 @@ function loadNotes() {
         return actualSavedNote;
     } else {
         // Données personnelle qui sera rangé dans le local storage
-        actualSavedNote = [
-
-        ];
+        actualSavedNote = [];
         return actualSavedNote;
     }
 
