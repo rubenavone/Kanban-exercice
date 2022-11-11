@@ -289,8 +289,9 @@ function saveNotes() {
 /******Chargement**********/
 /**************************/
 function loadNotes() {
-    if (localStorage.length !== 0) {
-        console.log("Chargement des données existante");
+    if (localStorage.length !== 0 && localStorage.savedNotes) {
+        console.log("Chargement des données existante" , localStorage);
+        console.log(localStorage.savedNotes)
         actualSavedNote = JSON.parse(localStorage.getItem("savedNotes"));
         Logger.newEntry({
             group: "Information",
